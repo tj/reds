@@ -22,5 +22,5 @@ strs.forEach(function(str){
 });
 
 var query = 'Tobi'
-  , arr = reds.metaphoneArray(query);
+  , arr = reds.metaphoneKeys(query);
 console.log(arr);
