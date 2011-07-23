@@ -8,19 +8,28 @@ var should = require('should')
   , reds = require('./')
   , db = redis.createClient();
 
+// Populate text bodies
+
 var strs = [];
 strs.push('Tobi wants four dollars');
 strs.push('Tobi only wants $4');
 strs.push('Loki is really fat');
 strs.push('Loki, Jane, and Tobi are ferrets');
+strs.push('Manny is a cat');
+strs.push('Luna is a cat');
+strs.push('Mustachio is a cat');
 
-strs.forEach(function(str){
-  var map = reds.metaphoneMap(str);
-  for (var word in map) {
-    db.sadd('word:' + map[word], word);
-  }
+strs.forEach(function(str, i){
+  reds.add(str, i);
 });
 
-var query = 'Tobi'
-  , arr = reds.metaphoneKeys(query);
-console.log(arr);
+// search
+
+reds.search(query = 'Tobi dollars', function(err, ids){
+  if (err) throw err;
+  console.log('Search results for "%s":', query);
+  ids.forEach(function(id){
+    console.log('  - %s', strs[id]);
+  })
+}\);
+
