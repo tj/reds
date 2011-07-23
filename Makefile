@@ -1,5 +1,5 @@
 
 test:
-	@echo "populate me"
+	@node test
 
 .PHONY: test
