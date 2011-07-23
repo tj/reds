@@ -5,7 +5,8 @@
   , "keywords": ["redis", "search", "metaphone", "phonetics"]
   , "author": "TJ Holowaychuk <tj@vision-media.ca>"
   , "dependencies": {
-    "natural": "0.0.27"
+      "natural": "0.0.27"
+    , "redis": "0.6.6"
   }
   , "devDependencies": {
     "should": "0.2.1"
