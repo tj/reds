@@ -7,6 +7,9 @@
   , "dependencies": {
     "natural": "0.0.27"
   }
+  , "devDependencies": {
+    "should": "0.2.1"
+  }
   , "main": "index"
   , "engines": { "node": "0.4.x" }
 }
