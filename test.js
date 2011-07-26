@@ -30,6 +30,7 @@ reds.search(query = 'Tobi dollars', function(err, ids){
   console.log('Search results for "%s":', query);
   ids.forEach(function(id){
     console.log('  - %s', strs[id]);
-  })
-}\);
+  });
+  process.exit(0);
+});
 
