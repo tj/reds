@@ -44,5 +44,11 @@ reds
   .search('Tobi', function(err, ids){
     if (err) throw err;
     ids.should.eql([0, 1, 3, 5]);
+  });
+
+reds
+  .search('is a', function(err, ids){
+    if (err) throw err;
+    ids.should.eql([]);
     process.exit();
   });
