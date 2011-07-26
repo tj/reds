@@ -79,7 +79,31 @@ reds
     if (err) throw err;
     ids.should.eql([2, 4]);
     --pending || process.exit();
+  });
+
+++pending;
+reds
+  .search('loki and jane', function(err, ids){
+    if (err) throw err;
+    ids.should.eql([2, 4]);
+    --pending || process.exit();
   }, 'or');
+
+++pending;
+reds
+  .search('loki and jane', function(err, ids){
+    if (err) throw err;
+    ids.should.eql([]);
+    --pending || process.exit();
+  }, 'and');
+
+++pending;
+reds
+  .search('jane ferret', function(err, ids){
+    if (err) throw err;
+    ids.should.eql([4]);
+    --pending || process.exit();
+  }, 'and');
 
 ++pending;
 reds
