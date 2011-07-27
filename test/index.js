@@ -8,6 +8,8 @@ var reds = require('../')
   , redis = require('redis')
   , db = redis.createClient();
 
+var start = new Date;
+
 reds.version.should.match(/^\d+\.\d+\.\d+$/);
 
 reds
@@ -51,7 +53,7 @@ function test() {
     .search('Tobi', function(err, ids){
       if (err) throw err;
       ids.should.eql([0, 3, 5]);
-      --pending || process.exit();
+      --pending || done();
     });
 
   ++pending;
@@ -59,7 +61,7 @@ function test() {
     .search('tobi', function(err, ids){
       if (err) throw err;
       ids.should.eql([0, 3, 5]);
-      --pending || process.exit();
+      --pending || done();
     });
 
   ++pending;
@@ -67,7 +69,7 @@ function test() {
     .search('bitchy', function(err, ids){
       if (err) throw err;
       ids.should.eql([4]);
-      --pending || process.exit();
+      --pending || done();
     });
 
   ++pending;
@@ -75,7 +77,7 @@ function test() {
     .search('bitchy jane', function(err, ids){
       if (err) throw err;
       ids.should.eql([4]);
-      --pending || process.exit();
+      --pending || done();
     });
 
   ++pending;
@@ -83,7 +85,7 @@ function test() {
     .search('loki and jane', function(err, ids){
       if (err) throw err;
       ids.should.eql([2, 4]);
-      --pending || process.exit();
+      --pending || done();
     });
 
   ++pending;
@@ -91,7 +93,7 @@ function test() {
     .search('loki and jane', function(err, ids){
       if (err) throw err;
       ids.should.eql([2, 4]);
-      --pending || process.exit();
+      --pending || done();
     }, 'or');
 
   ++pending;
@@ -99,7 +101,7 @@ function test() {
     .search('loki and jane', function(err, ids){
       if (err) throw err;
       ids.should.eql([]);
-      --pending || process.exit();
+      --pending || done();
     }, 'and');
 
   ++pending;
@@ -107,7 +109,7 @@ function test() {
     .search('jane ferret', function(err, ids){
       if (err) throw err;
       ids.should.eql([4]);
-      --pending || process.exit();
+      --pending || done();
     }, 'and');
 
   ++pending;
@@ -115,6 +117,13 @@ function test() {
     .search('is a', function(err, ids){
       if (err) throw err;
       ids.should.eql([]);
-      --pending || process.exit();
+      --pending || done();
     });
+}
+
+function done() {
+  console.log();
+  console.log('  tests completed in %dms', new Date - start);
+  console.log();
+  process.exit();
 }
