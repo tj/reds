@@ -122,17 +122,25 @@ function test() {
 
   ++pending;
   reds.
-    add('I like turtles', 6, function(err){
+    add('keyboard cat', 6, function(err){
       if (err) throw err;
-      reds.search('turtles', function(err, ids){
+      reds.search('keyboard', function(err, ids){
         if (err) throw err;
         ids.should.eql([6]);
-        reds.remove(6, function(err){
+        reds.search('cat', function(err, ids){
           if (err) throw err;
-          reds.search('turtles', function(err, ids){
+          ids.should.eql([6]);
+          reds.remove(6, function(err){
             if (err) throw err;
-            ids.should.be.empty;
-            --pending || done();
+            reds.search('keyboard', function(err, ids){
+              if (err) throw err;
+              ids.should.be.empty;
+              reds.search('cat', function(err, ids){
+                if (err) throw err;
+                ids.should.be.empty;
+                --pending || done();
+              });
+            });
           });
         });
       });
