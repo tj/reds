@@ -34,7 +34,7 @@ reds
 
 reds
   .metaphoneKeys(['foo', 'bar', 'baz'])
-  .should.eql(['word:F', 'word:BR', 'word:BS']);
+  .should.eql(['reds:word:F', 'reds:word:BR', 'reds:word:BS']);
 
 db.flushdb(function(){
   reds
@@ -118,6 +118,24 @@ function test() {
       if (err) throw err;
       ids.should.eql([]);
       --pending || done();
+    });
+
+  ++pending;
+  reds.
+    add('I like turtles', 6, function(err){
+      if (err) throw err;
+      reds.search('turtles', function(err, ids){
+        if (err) throw err;
+        ids.should.eql([6]);
+        reds.remove(6, function(err){
+          if (err) throw err;
+          reds.search('turtles', function(err, ids){
+            if (err) throw err;
+            ids.should.be.empty;
+            --pending || done();
+          });
+        });
+      });
     });
 }
 
