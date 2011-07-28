@@ -4,7 +4,7 @@
  */
 
 var uubench = require('uubench')
-  , reds = require('../')
+  , reds = require('../').createSearch('reds')
   , fs = require('fs');
 
 /**
@@ -53,20 +53,20 @@ console.log('   small: %dkb', (small.length / 1024).toFixed(2));
 console.log('  medium: %dkb', (medium.length / 1024).toFixed(2));
 console.log('   large: %dmb', (large.length / 1024 / 1024).toFixed(2));
 
-// suite.bench('add() tiny', function(next){
-//   reds.add(tiny, 0, next);
-// });
-
-// suite.bench('add() small', function(next){
-//   reds.add(small, 0, next);
-// });
-
-// suite.bench('add() medium', function(next){
-//   reds.add(medium, 1, next);
-// });
-
-suite.bench('add() large', function(next){
-  reds.add(large, 2, next);
+suite.bench('index() tiny', function(next){
+  reds.index(tiny, 0, next);
 });
+
+// suite.bench('index() small', function(next){
+//   reds.index(small, 0, next);
+// });
+
+// suite.bench('index() medium', function(next){
+//   reds.index(medium, 1, next);
+// });
+
+// suite.bench('index() large', function(next){
+//   reds.index(large, 2, next);
+// });
 
 suite.run();
