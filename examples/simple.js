@@ -31,7 +31,7 @@ strs.forEach(function(str, i){
 
 // query
 
-search.query(query, function(err, ids){
+search.query(query).end(function(err, ids){
   if (err) throw err;
   var res = ids.map(function(i){ return strs[i]; });
   console.log();

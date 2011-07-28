@@ -22,7 +22,7 @@ http.createServer(function(req, res){
     , query = qs.parse(url.query);
 
   if ('/search' == url.pathname) {
-    search.query(query.q, function(err, ids){
+    search.query(query.q).end(function(err, ids){
       // ids are simply indexes in this case
       var json = JSON.stringify(ids.map(function(id){ return urls[id]; }));
       res.setHeader('Content-Type', 'application/json');

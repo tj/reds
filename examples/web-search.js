@@ -22,7 +22,7 @@ if (!query) throw new Error('query required');
 
 // query
 
-search.query(query, function(err, ids){
+search.query(query).end(function(err, ids){
   if (err) throw err;
   var res = ids.map(function(i){ return urls[i]; });
   console.log();
