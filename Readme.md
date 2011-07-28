@@ -9,7 +9,7 @@
 
 ## Example
 
- reds acts against arbitrary numeric or string based ids, so you could utilize this library with essentially anything you wish. The following example just uses an array for our "database", containing some strings, which we add to reds by calling `reds.add()` padding the body of text and an id of some kind, in this case the index.
+ reds acts against arbitrary numeric or string based ids, so you could utilize this library with essentially anything you wish, even combining data stores. The following example just uses an array for our "database", containing some strings, which we add to reds by calling `reds.add()` padding the body of text and an id of some kind, in this case the index.
 
 ```js
 var strs = [];
