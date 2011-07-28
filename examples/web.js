@@ -9,7 +9,8 @@ var reds = require('../')
 // install local dev deps first:
 //   $ npm install -d
 
-var urls = [];
+var urls = []
+  , start = new Date;
 
 urls.push('http://learnboost.com');
 urls.push('http://manning.com');
@@ -35,9 +36,18 @@ urls.forEach(function(url, i){
     reds.add(body, i, function(err){
       if (err) throw err;
       log('completed');
+      --pending || done();
     });
   });
 });
+
+// all done
+
+function done() {
+  console.log('  indexed %d pages in %ds'
+    , urls.length
+    , ((new Date - start) / 1000).toFixed(2));
+}
 
 // lame, dont use me
 
