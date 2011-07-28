@@ -6,6 +6,7 @@
 var reds = require('../')
   , should = require('should')
   , redis = require('redis')
+  , search = reds.createSearch('reds')
   , db = redis.createClient();
 
 var start = new Date;
@@ -33,118 +34,123 @@ reds
   .should.eql(['F', 'BR', 'BS'])
 
 reds
-  .metaphoneKeys(['foo', 'bar', 'baz'])
+  .metaphoneKeys('reds', ['foo', 'bar', 'baz'])
   .should.eql(['reds:word:F', 'reds:word:BR', 'reds:word:BS']);
 
+reds
+  .metaphoneKeys('foobar', ['foo', 'bar', 'baz'])
+  .should.eql(['foobar:word:F', 'foobar:word:BR', 'foobar:word:BS']);
+
+
 db.flushdb(function(){
-  reds
-    .add('Tobi wants 4 dollars', 0)
-    .add('Loki is a ferret', 2)
-    .add('Tobi is also a ferret', 3)
-    .add('Jane is a bitchy ferret', 4)
-    .add('Tobi is employed by LearnBoost', 5, test)
-    .add('computing stuff', 6);
+  search
+    .index('Tobi wants 4 dollars', 0)
+    .index('Loki is a ferret', 2)
+    .index('Tobi is also a ferret', 3)
+    .index('Jane is a bitchy ferret', 4)
+    .index('Tobi is employed by LearnBoost', 5, test)
+    .index('computing stuff', 6);
 });
 
 function test() {
   var pending = 0;
 
   ++pending;
-  reds
-    .search('stuff compute', function(err, ids){
+  search
+    .query('stuff compute', function(err, ids){
       if (err) throw err;
       ids.should.eql([6]);
       --pending || done();
     });
 
   ++pending;
-  reds
-    .search('Tobi', function(err, ids){
+  search
+    .query('Tobi', function(err, ids){
       if (err) throw err;
       ids.should.eql([0, 3, 5]);
       --pending || done();
     });
 
   ++pending;
-  reds
-    .search('tobi', function(err, ids){
+  search
+    .query('tobi', function(err, ids){
       if (err) throw err;
       ids.should.eql([0, 3, 5]);
       --pending || done();
     });
 
   ++pending;
-  reds
-    .search('bitchy', function(err, ids){
+  search
+    .query('bitchy', function(err, ids){
       if (err) throw err;
       ids.should.eql([4]);
       --pending || done();
     });
 
   ++pending;
-  reds
-    .search('bitchy jane', function(err, ids){
+  search
+    .query('bitchy jane', function(err, ids){
       if (err) throw err;
       ids.should.eql([4]);
       --pending || done();
     });
 
   ++pending;
-  reds
-    .search('loki and jane', function(err, ids){
+  search
+    .query('loki and jane', function(err, ids){
       if (err) throw err;
       ids.should.eql([2, 4]);
       --pending || done();
     }, 'or');
 
   ++pending;
-  reds
-    .search('loki and jane', function(err, ids){
+  search
+    .query('loki and jane', function(err, ids){
       if (err) throw err;
       ids.should.eql([2, 4]);
       --pending || done();
     }, 'or');
 
   ++pending;
-  reds
-    .search('loki and jane', function(err, ids){
+  search
+    .query('loki and jane', function(err, ids){
       if (err) throw err;
       ids.should.eql([]);
       --pending || done();
     }, 'and');
 
   ++pending;
-  reds
-    .search('jane ferret', function(err, ids){
+  search
+    .query('jane ferret', function(err, ids){
       if (err) throw err;
       ids.should.eql([4]);
       --pending || done();
     }, 'and');
 
   ++pending;
-  reds
-    .search('is a', function(err, ids){
+  search
+    .query('is a', function(err, ids){
       if (err) throw err;
       ids.should.eql([]);
       --pending || done();
     });
 
   ++pending;
-  reds.
-    add('keyboard cat', 6, function(err){
+  search
+    .index('keyboard cat', 6, function(err){
       if (err) throw err;
-      reds.search('keyboard', function(err, ids){
+      search.query('keyboard', function(err, ids){
         if (err) throw err;
         ids.should.eql([6]);
-        reds.search('cat', function(err, ids){
+        search.query('cat', function(err, ids){
           if (err) throw err;
           ids.should.eql([6]);
-          reds.remove(6, function(err){
+          search.remove(6, function(err){
             if (err) throw err;
-            reds.search('keyboard', function(err, ids){
+            search.query('keyboard', function(err, ids){
               if (err) throw err;
               ids.should.be.empty;
-              reds.search('cat', function(err, ids){
+              search.query('cat', function(err, ids){
                 if (err) throw err;
                 ids.should.be.empty;
                 --pending || done();
