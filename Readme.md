@@ -97,7 +97,7 @@ Search results for "tobi dollars":
 
 ## Benchmarks
 
- Nothing scientific but preliminary benchmarks show that a small 1.6kb body of text is currently indexed in ~__6ms__, or __163__ ops/s. Medium bodies such as 40kb operate around __6__ ops/s, or __166ms__.
+ Nothing scientific but preliminary benchmarks show that a small 1.6kb body of text is currently indexed in ~__6ms__, or __163__ ops/s. Medium bodies such as 40kb operate around __6__ ops/s, or __166ms__. If working with massive documents, you may want to consider adding a "keywords" field, and simply indexing it's value instead of multi-megabyte documents.
 
 ## License 
 
