@@ -42,11 +42,20 @@ db.flushdb(function(){
     .add('Loki is a ferret', 2)
     .add('Tobi is also a ferret', 3)
     .add('Jane is a bitchy ferret', 4)
-    .add('Tobi is employed by LearnBoost', 5, test);
+    .add('Tobi is employed by LearnBoost', 5, test)
+    .add('computing stuff', 6);
 });
 
 function test() {
   var pending = 0;
+
+  ++pending;
+  reds
+    .search('stuff compute', function(err, ids){
+      if (err) throw err;
+      ids.should.eql([6]);
+      --pending || done();
+    });
 
   ++pending;
   reds
