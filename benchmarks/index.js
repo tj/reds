@@ -41,22 +41,29 @@ suite = new uubench.Suite({
  * Text bodies.
  */
 
-var small = fs.readFileSync('package.json', 'utf8');
-var medium = fs.readFileSync('Readme.md', 'utf8');
-var large = Array(20).join(medium);
+var tiny = fs.readFileSync('package.json', 'utf8');
+tiny = Array(5).join(tiny);
+var small = fs.readFileSync('Readme.md', 'utf8');
+var medium = Array(10).join(small);
+var large = Array(30).join(medium);
 
 console.log();
+console.log('    tiny: %dkb', (tiny.length / 1024).toFixed(2));
 console.log('   small: %dkb', (small.length / 1024).toFixed(2));
 console.log('  medium: %dkb', (medium.length / 1024).toFixed(2));
-console.log('   large: %dkb', (large.length / 1024).toFixed(2));
+console.log('   large: %dmb', (large.length / 1024 / 1024).toFixed(2));
 
-suite.bench('add() small', function(next){
-  reds.add(small, 0, next);
-});
+// suite.bench('add() tiny', function(next){
+//   reds.add(tiny, 0, next);
+// });
 
-suite.bench('add() medium', function(next){
-  reds.add(medium, 1, next);
-});
+// suite.bench('add() small', function(next){
+//   reds.add(small, 0, next);
+// });
+
+// suite.bench('add() medium', function(next){
+//   reds.add(medium, 1, next);
+// });
 
 suite.bench('add() large', function(next){
   reds.add(large, 2, next);
