@@ -1,5 +1,8 @@
 
+benchmark:
+	@node benchmarks
+
 test:
 	@node test
 
-.PHONY: test
+.PHONY: test benchmark
