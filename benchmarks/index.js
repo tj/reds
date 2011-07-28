@@ -50,7 +50,7 @@ console.log('   small: %dkb', (small.length / 1024).toFixed(2));
 console.log('  medium: %dkb', (medium.length / 1024).toFixed(2));
 console.log('   large: %dkb', (large.length / 1024).toFixed(2));
 
-suite.bench('add() small()', function(next){
+suite.bench('add() small', function(next){
   reds.add(small, 0, next);
 });
 
