@@ -66,6 +66,26 @@ Search results for "tobi dollars":
   - Tobi wants four dollars
 ```
 
+## About
+
+  Currently reds strips stop words and applies the metaphone algorithm to the remaining words before mapping the constants in Redis sets. For example the following text:
+
+    Tobi is a ferret and he only wants four dollars
+
+  Converts to the following constant map:
+  
+```js
+{
+  Tobi: 'TB',
+  ferret: 'FRT',
+  wants: 'WNTS',
+  four: 'FR',
+  dollars: 'TLRS'
+}
+```
+
+ This also means that phonetically similar words will match, for example "stefen", "stephen", "steven" and "stefan" all resolve to the constant "STFN".
+ 
 ## License 
 
 (The MIT License)
