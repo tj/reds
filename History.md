@@ -1,4 +1,11 @@
 
+0.1.0 / 2011-07-28 
+==================
+
+  * Added `Search` to allow multiple searches namespaced within Redis
+  * Added _web-search_ example
+  * Added _web-index_ example
+
 0.0.3 / 2011-07-27 
 ==================
 

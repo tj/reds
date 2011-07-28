@@ -1,6 +1,6 @@
 {
     "name": "reds"
-  , "version": "0.0.3"
+  , "version": "0.1.0"
   , "description": "Redis search for node.js"
   , "keywords": ["redis", "search", "metaphone", "phonetics", "natural"]
   , "author": "TJ Holowaychuk <tj@vision-media.ca>"
