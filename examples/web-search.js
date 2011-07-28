@@ -5,6 +5,7 @@
 
 var reds = require('../')
   , fs = require('fs')
+  , search = reds.createSearch('webpages')
   , urls = fs.readFileSync(__dirname + '/urls', 'utf8').split('\n');
 
 // First run:
@@ -21,7 +22,7 @@ if (!query) throw new Error('query required');
 
 // query
 
-reds.search(query, function(err, ids){
+search.query(query, function(err, ids){
   if (err) throw err;
   var res = ids.map(function(i){ return urls[i]; });
   console.log();

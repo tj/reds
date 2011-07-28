@@ -5,6 +5,7 @@
 
 var reds = require('../')
   , agent = require('superagent')
+  , search = reds.createSearch('webpages')
   , fs = require('fs');
 
 // install local dev deps first:
@@ -33,7 +34,7 @@ urls.forEach(function(url, i){
 
     // index
     log('indexing');
-    reds.add(body, i, function(err){
+    search.index(body, i, function(err){
       if (err) throw err;
       log('completed');
       --pending || done();
