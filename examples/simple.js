@@ -5,13 +5,19 @@
 
 var reds = require('../');
 
+// $ node examples/simple Tobi
+// $ node examples/simple tobi
+// $ node examples/simple cat
+// $ node examples/simple bitch
+// $ node examples/simple bitch ferret
+
 var strs = [];
 strs.push('Manny is a cat');
 strs.push('Luna is a cat');
 strs.push('Tobi is a ferret');
 strs.push('Loki is a ferret');
 strs.push('Jane is a ferret');
-strs.push('Jane is bitchy');
+strs.push('Jane is bitchy ferret');
 
 var query = process.argv.slice(2).join(' ');
 if (!query) throw new Error('query required');

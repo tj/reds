@@ -95,7 +95,7 @@ function test() {
       if (err) throw err;
       ids.should.eql([2, 4]);
       --pending || done();
-    });
+    }, 'or');
 
   ++pending;
   reds

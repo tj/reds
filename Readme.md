@@ -37,16 +37,14 @@ reds.search(query = 'Tobi dollars', function(err, ids){
 });
 ```
 
- By default reds performs a union of the search words, the previous example would yield the following output:
+ By default reds performs an intersection of the search words, the previous example would yield the following output:
 
 ```
 Search results for "Tobi dollars":
   - Tobi wants four dollars
-  - Tobi only wants $4
-  - Loki, Jane, and Tobi are ferrets
 ```
 
- We can tweak reds to intersect by passing either "intersect" or "and" to `reds.search()` after the callback, indicating that _all_ the constants computed must be present for the id to match.
+ We can tweak reds to perform a union by passing either "union" or "or" to `reds.search()` after the callback, indicating that _any_ of the constants computed may be present for the id to match.
 
 ```js
 reds.search(query = 'tobi dollars', function(err, ids){
@@ -56,7 +54,7 @@ reds.search(query = 'tobi dollars', function(err, ids){
     console.log('  - %s', strs[id]);
   });
   process.exit();
-}, 'and');
+}, 'or');
 ```
 
  The intersection would yield the following since only one string contains both "Tobi" _and_ "dollars".
@@ -64,6 +62,8 @@ reds.search(query = 'tobi dollars', function(err, ids){
 ```
 Search results for "tobi dollars":
   - Tobi wants four dollars
+  - Tobi only wants $4
+  - Loki, Jane, and Tobi are ferrets
 ```
 
 ## API
