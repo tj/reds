@@ -122,7 +122,7 @@ search.query('foo bar', function(err, ids){});
 
  Nothing scientific but preliminary benchmarks show that a small 1.6kb body of text is currently indexed in ~__6ms__, or __163__ ops/s. Medium bodies such as 40kb operate around __6__ ops/s, or __166ms__.
 
- Querying with a multi-word phrase, and an index containing ~400 words operates around __3700__ ops/s. Not too bad.
+ Querying with a multi-word phrase, and an index containing ~3500 words operates around __5300__ ops/s. Not too bad.
  
  If working with massive documents, you may want to consider adding a "keywords" field, and simply indexing it's value instead of multi-megabyte documents.
 
