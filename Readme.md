@@ -9,7 +9,11 @@
 
 ## Example
 
- reds acts against arbitrary numeric or string based ids, so you could utilize this library with essentially anything you wish, even combining data stores. The following example just uses an array for our "database", containing some strings, which we add to reds by calling `reds.add()` padding the body of text and an id of some kind, in this case the index.
+The first thing you'll want to do is create a `Search` instance, which allows you to pass a `key`, used for namespacing within Redis so that you may have several searches in the same db.
+
+    var search = reds.createSearch('pets');
+
+ reds acts against arbitrary numeric or string based ids, so you could utilize this library with essentially anything you wish, even combining data stores. The following example just uses an array for our "database", containing some strings, which we add to reds by calling `Search#index()` padding the body of text and an id of some kind, in this case the index.
 
 ```js
 var strs = [];
@@ -21,13 +25,13 @@ strs.push('Manny is a cat');
 strs.push('Luna is a cat');
 strs.push('Mustachio is a cat');
 
-strs.forEach(function(str, i){ reds.add(str, i); });
+strs.forEach(function(str, i){ search.index(str, i); });
 ```
 
- To perform a query against reds simply invoke `reds.search()` with a string, and pass a callback, which receives an array of ids when present, or an empty array otherwise.
+ To perform a query against reds simply invoke `Search#query()` with a string, and pass a callback, which receives an array of ids when present, or an empty array otherwise.
 
 ```js
-reds.search(query = 'Tobi dollars', function(err, ids){
+search.query(query = 'Tobi dollars', function(err, ids){
   if (err) throw err;
   console.log('Search results for "%s":', query);
   ids.forEach(function(id){
@@ -47,7 +51,7 @@ Search results for "Tobi dollars":
  We can tweak reds to perform a union by passing either "union" or "or" to `reds.search()` after the callback, indicating that _any_ of the constants computed may be present for the id to match.
 
 ```js
-reds.search(query = 'tobi dollars', function(err, ids){
+search.query(query = 'tobi dollars', function(err, ids){
   if (err) throw err;
   console.log('Search results for "%s":', query);
   ids.forEach(function(id){
@@ -69,18 +73,20 @@ Search results for "tobi dollars":
 ## API
 
 ```js
-reds.add(text, id[, fn]);
-reds.remove(id[, fn]);
-reds.search(text, fn[, type]);
+reds.createSearch(key)
+Search#index(text, id[, fn])
+Search#remove(id[, fn]);
+Search#query(text, fn[, type]);
 ```
 
  Examples:
 
 ```js
-reds.add('Foo bar baz', 'abc');
-reds.add('Foo bar', 'bcd');
-reds.remove('bcd');
-reds.search('foo bar', function(err, ids){});
+var search = reds.createSearch('misc');
+search.index('Foo bar baz', 'abc');
+search.index('Foo bar', 'bcd');
+search.remove('bcd');
+search.query('foo bar', function(err, ids){});
 ```
 
 ## About
