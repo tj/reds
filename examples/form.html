@@ -1,0 +1,54 @@
+<html>
+  <head>
+    <title>Realtime Search</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
+    <style>
+      body {
+        padding: 50px;
+        font: 14px "helvetica neue", helvetica, arial, sans-serif;
+      }
+      .desc {
+        margin: 3px;
+        font-size: 12px;
+        color: #888;
+      }
+      input {
+        outline: none;
+      }
+      ul {
+        margin: 0;
+        padding: 0;
+      }
+      ul li {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        padding: 3px;
+      }
+    </style>
+
+    <script>
+      o = $; // because $ is lame
+
+      o(function(){
+        o('[name=query]').keyup(function(){
+          var val = o(this).val().trim()
+            , results = o('#results').empty();
+          if (!val) return;
+          o.get('/search?q=' + val, function(res){
+            res.forEach(function(res){
+              results.append('<li>' + res + '</li>');
+            });
+          });
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <form>
+      <input type="text" placeholder="Search" name="query" autocomplete="off" />
+      <p class="desc">Try "express", "mongodb", "hacker" ...</p>
+    </form>
+    <ul id="results"></ul>
+  </body>
+</html>
