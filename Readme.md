@@ -66,6 +66,23 @@ Search results for "tobi dollars":
   - Tobi wants four dollars
 ```
 
+## API
+
+```js
+reds.add(text, id[, fn]);
+reds.remove(id[, fn]);
+reds.search(text, fn[, type]);
+```
+
+ Examples:
+
+```js
+reds.add('Foo bar baz', 'abc');
+reds.add('Foo bar', 'bcd');
+reds.remove('bcd');
+reds.search('foo bar', function(err, ids){});
+```
+
 ## About
 
   Currently reds strips stop words and applies the metaphone algorithm to the remaining words before mapping the constants in Redis sets. For example the following text:
