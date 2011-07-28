@@ -11,6 +11,8 @@ var reds = require('../')
 //   $ node examples/web-index
 // Then query:
 //   $ node examples/web-search whatever query here
+//   $ node examples/web-search jade
+//   $ node examples/web-search education
 
 var query = process.argv.slice(2).join(' ');
 if (!query) throw new Error('query required');
