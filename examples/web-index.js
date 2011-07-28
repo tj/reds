@@ -8,6 +8,8 @@ var reds = require('../')
 
 // install local dev deps first:
 //   $ npm install -d
+// then run
+//   $ node examples/web-index
 
 var urls = []
   , start = new Date;
