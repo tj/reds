@@ -57,7 +57,8 @@ function test() {
 
   ++pending;
   search
-    .query('stuff compute', function(err, ids){
+    .query('stuff compute')
+    .end(function(err, ids){
       if (err) throw err;
       ids.should.eql([6]);
       --pending || done();
@@ -65,7 +66,8 @@ function test() {
 
   ++pending;
   search
-    .query('Tobi', function(err, ids){
+    .query('Tobi')
+    .end(function(err, ids){
       if (err) throw err;
       ids.should.eql([0, 3, 5]);
       --pending || done();
@@ -73,7 +75,8 @@ function test() {
 
   ++pending;
   search
-    .query('tobi', function(err, ids){
+    .query('tobi')
+    .end(function(err, ids){
       if (err) throw err;
       ids.should.eql([0, 3, 5]);
       --pending || done();
@@ -81,7 +84,8 @@ function test() {
 
   ++pending;
   search
-    .query('bitchy', function(err, ids){
+    .query('bitchy')
+    .end(function(err, ids){
       if (err) throw err;
       ids.should.eql([4]);
       --pending || done();
@@ -89,7 +93,8 @@ function test() {
 
   ++pending;
   search
-    .query('bitchy jane', function(err, ids){
+    .query('bitchy jane')
+    .end(function(err, ids){
       if (err) throw err;
       ids.should.eql([4]);
       --pending || done();
@@ -97,39 +102,46 @@ function test() {
 
   ++pending;
   search
-    .query('loki and jane', function(err, ids){
+    .query('loki and jane')
+    .type('or')
+    .end(function(err, ids){
       if (err) throw err;
       ids.should.eql([2, 4]);
       --pending || done();
-    }, 'or');
+    });
 
   ++pending;
   search
-    .query('loki and jane', function(err, ids){
+    .query('loki and jane')
+    .type('or')
+    .end(function(err, ids){
       if (err) throw err;
       ids.should.eql([2, 4]);
       --pending || done();
-    }, 'or');
+    });
 
   ++pending;
   search
-    .query('loki and jane', function(err, ids){
+    .query('loki and jane')
+    .end(function(err, ids){
       if (err) throw err;
       ids.should.eql([]);
       --pending || done();
-    }, 'and');
+    });
 
   ++pending;
   search
-    .query('jane ferret', function(err, ids){
+    .query('jane ferret')
+    .end(function(err, ids){
       if (err) throw err;
       ids.should.eql([4]);
       --pending || done();
-    }, 'and');
+    });
 
   ++pending;
   search
-    .query('is a', function(err, ids){
+    .query('is a')
+    .end(function(err, ids){
       if (err) throw err;
       ids.should.eql([]);
       --pending || done();
@@ -139,18 +151,18 @@ function test() {
   search
     .index('keyboard cat', 6, function(err){
       if (err) throw err;
-      search.query('keyboard', function(err, ids){
+      search.query('keyboard').end(function(err, ids){
         if (err) throw err;
         ids.should.eql([6]);
-        search.query('cat', function(err, ids){
+        search.query('cat').end(function(err, ids){
           if (err) throw err;
           ids.should.eql([6]);
           search.remove(6, function(err){
             if (err) throw err;
-            search.query('keyboard', function(err, ids){
+            search.query('keyboard').end(function(err, ids){
               if (err) throw err;
               ids.should.be.empty;
-              search.query('cat', function(err, ids){
+              search.query('cat').end(function(err, ids){
                 if (err) throw err;
                 ids.should.be.empty;
                 --pending || done();
