@@ -47,6 +47,7 @@ function done() {
   console.log('  indexed %d pages in %ds'
     , urls.length
     , ((new Date - start) / 1000).toFixed(2));
+  process.exit();
 }
 
 // lame, dont use me
