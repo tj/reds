@@ -84,8 +84,17 @@ Search results for "tobi dollars":
 }
 ```
 
- This also means that phonetically similar words will match, for example "stefen", "stephen", "steven" and "stefan" all resolve to the constant "STFN".
- 
+ This also means that phonetically similar words will match, for example "stefen", "stephen", "steven" and "stefan" all resolve to the constant "STFN". Reds takes this further and applies the porter stemming algorithm to "stem" words, for example "counts", and "counting" become "count".
+
+ Consider we have the following bodies of text:
+
+    Tobi really wants four dollars
+    For some reason tobi is always wanting four dollars
+
+ The following search query will then match _both_ of these bodies, and "wanting", and "wants" both reduce to "want".
+
+    tobi wants four dollars
+
 ## License 
 
 (The MIT License)
