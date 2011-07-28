@@ -4,23 +4,16 @@
  */
 
 var reds = require('../')
-  , agent = require('superagent');
+  , agent = require('superagent')
+  , fs = require('fs');
 
 // install local dev deps first:
 //   $ npm install -d
 // then run
 //   $ node examples/web-index
 
-var urls = []
+var urls = fs.readFileSync(__dirname + '/urls', 'utf8').split('\n')
   , start = new Date;
-
-urls.push('http://learnboost.com');
-urls.push('http://manning.com');
-urls.push('http://www.manning.com/catalog/java/');
-urls.push('http://www.manning.com/catalog/dotnet/');
-urls.push('http://www.manning.com/about/blogs.html');
-urls.push('http://www.manning.com/catalog/by/subject/');
-urls.push('http://www.manning.com/about/ebooks.html');
 
 // index
 
