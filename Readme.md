@@ -1,7 +1,7 @@
 
 # reds
 
-  reds (red-s) is a light-weight Redis search for node.js. This module was originally developed to provide search capabilities for [Kue](http://learnboost.github.com/kue) a priority job queue, however it is very much a light general purpose search library that could be integrated into a blog, a documentation server, etc.
+  reds is a light-weight Redis search for node.js. This module was originally developed to provide search capabilities for [Kue](http://learnboost.github.com/kue) a priority job queue, however it is very much a light general purpose search library that could be integrated into a blog, a documentation server, etc.
 
 ## Installation
 
@@ -91,7 +91,7 @@ search.query('foo bar', function(err, ids){});
 
 ## About
 
-  Currently reds strips stop words and applies the metaphone algorithm to the remaining words before mapping the constants in Redis sets. For example the following text:
+  Currently reds strips stop words and applies the metaphone and porter stemmer algorithms to the remaining words before mapping the constants in Redis sets. For example the following text:
 
     Tobi is a ferret and he only wants four dollars
 
