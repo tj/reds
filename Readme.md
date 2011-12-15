@@ -1,4 +1,3 @@
-
 # reds
 
   reds is a light-weight Redis search for node.js. This module was originally developed to provide search capabilities for [Kue](http://learnboost.github.com/kue) a priority job queue, however it is very much a light general purpose search library that could be integrated into a blog, a documentation server, etc.
@@ -31,15 +30,17 @@ strs.forEach(function(str, i){ search.index(str, i); });
  To perform a query against reds simply invoke `Search#query()` with a string, and pass a callback, which receives an array of ids when present, or an empty array otherwise.
 
 ```js
-search.query(query = 'Tobi dollars', function(err, ids){
-  if (err) throw err;
-  console.log('Search results for "%s":', query);
-  ids.forEach(function(id){
-    console.log('  - %s', strs[id]);
+search
+  .query(query = 'Tobi dollars')
+  .end(function(err, ids){
+    if (err) throw err;
+    console.log('Search results for "%s":', query);
+    ids.forEach(function(id){
+      console.log('  - %s', strs[id]);
+    });
+    process.exit();
   });
-  process.exit();
-});
-```
+  ```
 
  By default reds performs an intersection of the search words, the previous example would yield the following output:
 
@@ -51,14 +52,16 @@ Search results for "Tobi dollars":
  We can tweak reds to perform a union by passing either "union" or "or" to `reds.search()` after the callback, indicating that _any_ of the constants computed may be present for the id to match.
 
 ```js
-search.query(query = 'tobi dollars', function(err, ids){
-  if (err) throw err;
-  console.log('Search results for "%s":', query);
-  ids.forEach(function(id){
-    console.log('  - %s', strs[id]);
-  });
-  process.exit();
-}, 'or');
+search
+  .query(query = 'tobi dollars')
+  .end(function(err, ids){
+    if (err) throw err;
+    console.log('Search results for "%s":', query);
+    ids.forEach(function(id){
+      console.log('  - %s', strs[id]);
+    });
+    process.exit();
+  }, 'or');
 ```
 
  The intersection would yield the following since only one string contains both "Tobi" _and_ "dollars".
@@ -86,7 +89,7 @@ var search = reds.createSearch('misc');
 search.index('Foo bar baz', 'abc');
 search.index('Foo bar', 'bcd');
 search.remove('bcd');
-search.query('foo bar', function(err, ids){});
+search.query('foo bar').end(function(err, ids){});
 ```
 
 ## About
