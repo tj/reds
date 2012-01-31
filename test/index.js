@@ -60,7 +60,7 @@ function test() {
     .query('stuff compute')
     .end(function(err, ids){
       if (err) throw err;
-      ids.should.eql([6]);
+      ids.should.eql(['6']);
       --pending || done();
     });
 
@@ -69,7 +69,10 @@ function test() {
     .query('Tobi')
     .end(function(err, ids){
       if (err) throw err;
-      ids.should.eql([0, 3, 5]);
+      ids.should.have.length(3);
+      ids.should.include('0');
+      ids.should.include('3');
+      ids.should.include('5');
       --pending || done();
     });
 
@@ -78,7 +81,10 @@ function test() {
     .query('tobi')
     .end(function(err, ids){
       if (err) throw err;
-      ids.should.eql([0, 3, 5]);
+      ids.should.have.length(3);
+      ids.should.include('0');
+      ids.should.include('3');
+      ids.should.include('5');
       --pending || done();
     });
 
@@ -87,7 +93,7 @@ function test() {
     .query('bitchy')
     .end(function(err, ids){
       if (err) throw err;
-      ids.should.eql([4]);
+      ids.should.eql(['4']);
       --pending || done();
     });
 
@@ -96,7 +102,7 @@ function test() {
     .query('bitchy jane')
     .end(function(err, ids){
       if (err) throw err;
-      ids.should.eql([4]);
+      ids.should.eql(['4']);
       --pending || done();
     });
 
@@ -106,7 +112,9 @@ function test() {
     .type('or')
     .end(function(err, ids){
       if (err) throw err;
-      ids.should.eql([2, 4]);
+      ids.should.have.length(2);
+      ids.should.include('2');
+      ids.should.include('4');
       --pending || done();
     });
 
@@ -116,7 +124,9 @@ function test() {
     .type('or')
     .end(function(err, ids){
       if (err) throw err;
-      ids.should.eql([2, 4]);
+      ids.should.have.length(2);
+      ids.should.include('2');
+      ids.should.include('4');
       --pending || done();
     });
 
@@ -134,7 +144,7 @@ function test() {
     .query('jane ferret')
     .end(function(err, ids){
       if (err) throw err;
-      ids.should.eql([4]);
+      ids.should.eql(['4']);
       --pending || done();
     });
 
@@ -153,10 +163,10 @@ function test() {
       if (err) throw err;
       search.query('keyboard').end(function(err, ids){
         if (err) throw err;
-        ids.should.eql([6]);
+        ids.should.eql(['6']);
         search.query('cat').end(function(err, ids){
           if (err) throw err;
-          ids.should.eql([6]);
+          ids.should.eql(['6']);
           search.remove(6, function(err){
             if (err) throw err;
             search.query('keyboard').end(function(err, ids){
