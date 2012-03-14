@@ -6,7 +6,7 @@
   , "author": "TJ Holowaychuk <tj@vision-media.ca>"
   , "dependencies": {
       "natural": "0.0.69"
-    , "redis": ">= 0.6.6"
+    , "redis": "0.7.1"
   }
   , "devDependencies": {
       "should": "*"
