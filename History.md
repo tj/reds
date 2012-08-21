@@ -1,4 +1,11 @@
 
+0.2.0 / 2012-08-21 
+==================
+ 
+  * add weighted search [kbsymanz]
+  * update redis dep
+  * update natural dep
+
 0.1.4 / 2012-06-28 
 ==================
 
