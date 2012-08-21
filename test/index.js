@@ -22,6 +22,15 @@ reds
   .should.eql(['just', 'test']);
 
 reds
+  .countWords(['foo', 'bar', 'baz', 'foo', 'jaz', 'foo', 'baz'])
+  .should.eql({
+    foo: 3
+    , bar: 1
+    , baz: 2
+    , jaz: 1
+  });
+
+reds
   .metaphoneMap(['foo', 'bar', 'baz'])
   .should.eql({
       foo: 'F'
@@ -41,7 +50,6 @@ reds
   .metaphoneKeys('foobar', ['foo', 'bar', 'baz'])
   .should.eql(['foobar:word:F', 'foobar:word:BR', 'foobar:word:BS']);
 
-
 db.flushdb(function(){
   search
     .index('Tobi wants 4 dollars', 0)
@@ -49,7 +57,10 @@ db.flushdb(function(){
     .index('Tobi is also a ferret', 3)
     .index('Jane is a bitchy ferret', 4)
     .index('Tobi is employed by LearnBoost', 5, test)
-    .index('computing stuff', 6);
+    .index('computing stuff', 6)
+    .index('simple words do not mean simple ideas', 7)
+    .index('The dog spoke the words, much to our unbelief.', 8)
+    .index('puppy dog eagle puppy frog puppy dog simple', 9);
 });
 
 function test() {
@@ -154,6 +165,33 @@ function test() {
     .end(function(err, ids){
       if (err) throw err;
       ids.should.eql([]);
+      --pending || done();
+    });
+
+  ++pending;
+  search
+    .query('simple')
+    .end(function(err, ids){
+      if (err) throw err;
+      ids.should.have.length(2);
+      ids.should.include('7');
+      ids.should.include('9');
+      ids[0].should.eql('7');
+      ids[1].should.eql('9');
+      --pending || done();
+    });
+
+  ++pending;
+  search
+    .query('dog ideas')
+    .type('or')
+    .end(function(err, ids){
+      if (err) throw err;
+      ids.should.have.length(3);
+      ids.should.include('7');
+      ids.should.include('8');
+      ids.should.include('9');
+      ids[0].should.eql('9');
       --pending || done();
     });
 
