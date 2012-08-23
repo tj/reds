@@ -26,15 +26,16 @@ urls.forEach(function(url, i){
   }
 
   log('fetching');
-  agent.get(url, function(err, res, body){
-    if (err) throw err;
+  agent.get(url, function(res){
+    var words;
+
     // strip html tags
     log('stripping tags');
-    body = striptags(body);
+    words = striptags(res.text);
 
     // index
     log('indexing');
-    search.index(body, i, function(err){
+    search.index(words, i, function(err){
       if (err) throw err;
       log('completed');
       --pending || done();
