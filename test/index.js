@@ -18,6 +18,10 @@ reds
   .should.eql(['foo', 'bar', 'baz']);
 
 reds
+  .words('Punctuation; should be possible, true.')
+  .should.eql(['Punctuation', 'should', 'be', 'possible', 'true']);
+
+reds
   .stripStopWords(['this', 'is', 'just', 'a', 'test'])
   .should.eql(['just', 'test']);
 
