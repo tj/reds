@@ -14,8 +14,12 @@ var start = new Date;
 reds.version.should.match(/^\d+\.\d+\.\d+$/);
 
 reds
-  .words('foo bar baz')
+  .words('foo bar baz ')
   .should.eql(['foo', 'bar', 'baz']);
+
+reds
+  .words(' Punctuation and whitespace; should be, handled.')
+  .should.eql(['Punctuation', 'and', 'whitespace', 'should', 'be', 'handled']);
 
 reds
   .stripStopWords(['this', 'is', 'just', 'a', 'test'])
