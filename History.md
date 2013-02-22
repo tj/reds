@@ -1,4 +1,9 @@
 
+0.2.3 / 2013-02-22 
+==================
+
+  * fix redis call to allow for multiple keywords
+
 0.2.2 / 2012-10-08 
 ==================
 
