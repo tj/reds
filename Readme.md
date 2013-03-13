@@ -106,7 +106,7 @@ search.query('foo bar').end(function(err, ids){});
   ferret: 'FRT',
   wants: 'WNTS',
   four: 'FR',
-  dollars: 'TLRS'
+  dollars: 'DLRS'
 }
 ```
 
