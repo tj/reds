@@ -1,4 +1,10 @@
 
+0.2.4 / 2013-08-10 
+==================
+
+ * add function to limit the number of results (pagination)
+ * fix failure on strings that do not contain words 
+
 0.2.3 / 2013-02-22 
 ==================
 
