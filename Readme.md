@@ -42,7 +42,7 @@ search
   });
   ```
 
- By default reds performs an intersection of the search words, the previous example would yield the following output:
+ By default reds performs an intersection of the search words. The previous example would yield the following output since only one string contains both "Tobi" _and_ "dollars":
 
 ```
 Search results for "Tobi dollars":
@@ -64,7 +64,7 @@ search
   }, 'or');
 ```
 
- The intersection would yield the following since only one string contains both "Tobi" _and_ "dollars".
+ The union search would yield the following since three strings contain either "Tobi" _or_ "dollars":
 
 ```
 Search results for "tobi dollars":
