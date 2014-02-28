@@ -49,11 +49,12 @@ Search results for "Tobi dollars":
   - Tobi wants four dollars
 ```
 
- We can tweak reds to perform a union by passing either "union" or "or" to `reds.search()` after the callback, indicating that _any_ of the constants computed may be present for the id to match.
+ We can tweak reds to perform a union by passing either "union" or "or" to `Search#type()` in `reds.search()` between `Search#query()` and `Search#end()`, indicating that _any_ of the constants computed may be present for the id to match.
 
 ```js
 search
   .query(query = 'tobi dollars')
+  .type('or')
   .end(function(err, ids){
     if (err) throw err;
     console.log('Search results for "%s":', query);
@@ -61,7 +62,7 @@ search
       console.log('  - %s', strs[id]);
     });
     process.exit();
-  }, 'or');
+  });
 ```
 
  The union search would yield the following since three strings contain either "Tobi" _or_ "dollars":
