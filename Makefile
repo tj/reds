@@ -2,7 +2,7 @@
 test:
 	@node test
 
-benchmark:
-	@node benchmarks
+bench:
+	@./node_modules/.bin/matcha benchmarks
 
-.PHONY: test benchmark
+.PHONY: test bench

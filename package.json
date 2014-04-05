@@ -1,27 +1,27 @@
 {
-    "name": "reds",
-    "version": "0.2.4",
-    "description": "Redis search for node.js",
-    "keywords": [
-        "redis",
-        "search",
-        "metaphone",
-        "phonetics",
-        "natural"
-    ],
-    "author": "TJ Holowaychuk <tj@vision-media.ca>",
-    "dependencies": {
-        "natural": "0.1.17",
-        "redis": "0.7.2"
-    },
-    "devDependencies": {
-        "should": "*",
-        "uubench": "*",
-        "superagent": "*"
-    },
-    "main": "index",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/visionmedia/reds.git"
-    }
+  "name": "reds",
+  "version": "0.2.4",
+  "description": "Redis search for node.js",
+  "keywords": [
+    "redis",
+    "search",
+    "metaphone",
+    "phonetics",
+    "natural"
+  ],
+  "author": "TJ Holowaychuk <tj@vision-media.ca>",
+  "dependencies": {
+    "natural": "0.1.17",
+    "redis": "0.7.2"
+  },
+  "devDependencies": {
+    "should": "*",
+    "superagent": "*",
+    "matcha": "~0.5.0"
+  },
+  "main": "index",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/visionmedia/reds.git"
+  }
 }
