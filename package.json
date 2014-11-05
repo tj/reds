@@ -11,11 +11,13 @@
   ],
   "author": "TJ Holowaychuk <tj@vision-media.ca>",
   "dependencies": {
+    "metaphone": "^0.1.0",
     "natural": "0.1.17",
-    "redis": "0.7.2"
+    "redis": "0.7.2",
+    "stemmer": "^0.1.0"
   },
   "devDependencies": {
-    "should": "*",
+    "should": "^2.1.1",
     "superagent": "*",
     "matcha": "~0.5.0"
   },
