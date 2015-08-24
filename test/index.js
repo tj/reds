@@ -224,6 +224,20 @@ function test() {
         });
       });
     });
+
+  ++pending;
+  search.query('learnboos').end(function(err, ids){
+    if (err) throw err;
+    ids.should.eql(['5']);
+    search.remove(5, function(err){
+      if (err) throw err;
+      search.query('learnboos').end(function(err, ids){
+        if (err) throw err;
+        ids.should.eql([]);
+        --pending || done();
+      });
+    });
+  });
 }
 
 function done() {
