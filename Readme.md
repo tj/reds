@@ -77,7 +77,7 @@ Search results for "tobi dollars":
 ## API
 
 ```js
-reds.createSearch(key)
+reds.createSearch(key[, options])
 Search#index(text, id[, fn])
 Search#remove(id[, fn]);
 Search#query(text, fn[, type]);
@@ -92,6 +92,13 @@ search.index('Foo bar', 'bcd');
 search.remove('bcd');
 search.query('foo bar').end(function(err, ids){});
 ```
+
+The `options` argument of `createSearch` enables customization of the search and indexing behavior:
+
+Option               | Default | Description
+-------------------- | ------- | -----------
+`prefix`             | `false` | Enables matching of word prefixes, e.g. querying "LearnBoos" would also match "LearnBoost"
+`weightExactMatches` | `10`    | Weight factor for exact matches relative to prefix matches, so matches for entire words are ranked higher than prefix matches
 
 ## About
 
