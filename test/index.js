@@ -3,7 +3,7 @@
  * Module dependencies.
  */
 
-var reds = require('../')
+var reds = require('../reds')
   , should = require('should')
   , redis = require('redis')
   , search = reds.createSearch('reds')

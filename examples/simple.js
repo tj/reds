@@ -29,6 +29,7 @@ strs.forEach(function(str, i){
   search.index(str, i);
 });
 
+
 // query
 
 search.query(query).end(function(err, ids){
