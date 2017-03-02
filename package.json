@@ -11,7 +11,7 @@
   ],
   "author": "TJ Holowaychuk <tj@vision-media.ca>",
   "dependencies": {
-    "natural": "^0.2.0",
+    "natural": "^0.5.0",
     "redis": "^0.12.1"
   },
   "devDependencies": {
