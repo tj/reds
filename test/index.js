@@ -224,6 +224,30 @@ function test() {
         });
       });
     });
+
+  ++pending;
+  search.query('learnboos').end(function(err, ids){
+    if (err) throw err;
+    ids.should.eql([]);
+    --pending || done();
+  });
+
+  ++pending;
+  search = reds.createSearch('reds', {prefix: true});
+  search.index('Tobi is employed by LearnBoost', 15, function() {
+    search.query('learnboos').end(function(err, ids){
+      if (err) throw err;
+      ids.should.eql(['15']);
+      search.remove(15, function(err){
+        if (err) throw err;
+        search.query('learnboos').end(function(err, ids){
+          if (err) throw err;
+          ids.should.eql([]);
+          --pending || done();
+        });
+      });
+    });
+  });
 }
 
 function done() {
