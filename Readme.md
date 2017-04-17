@@ -2,13 +2,17 @@
 
   reds is a light-weight Redis search for node.js. This module was originally developed to provide search capabilities for [Kue](http://automattic.github.io/kue/) a priority job queue, however it is very much a light general purpose search library that could be integrated into a blog, a documentation server, etc.
 
+## Upgrading
+
+Version 1.0.0 is syntactically compatible with previous versions of reds (0.2.5). However, [natural](https://github.com/NaturalNode/natural) has been updated. Documents indexed with older installs of reds (using natural v0.2.0) may need to be re-indexed to avoid some edge cases.
+
 ## Installation
 
       $ npm install reds
 
 ## Example
 
-The first thing you'll want to do is create a `Search` instance, which allows you to pass a `key`, used for namespacing within Redis so that you may have several searches in the same db.
+The first thing you'll want to do is create a `Search` instance, which allows you to pass a `key`, used for namespacing within Redis so that you may have several searches in the same db. You may specify your own [node_redis](https://github.com/NodeRedis/node_redis) instance with the `reds.setClient` function.
 
     var search = reds.createSearch('pets');
 
@@ -91,6 +95,24 @@ search.index('Foo bar baz', 'abc');
 search.index('Foo bar', 'bcd');
 search.remove('bcd');
 search.query('foo bar').end(function(err, ids){});
+```
+
+## Extending reds
+
+Starting in 1.0.0, you can easily extend and expand how reds functions. When creating a new search, supply an object as the second argument. There are currently three properties that can be configured:
+
+- `nlpProcess` the natural language processing function. You can alter how the words are processed (split, stemmed, and converted to metaphones) using this function.
+- `writeIndex` how the items are written to the index. 
+- `removeIndex` how the items are removed from the index.
+
+See the `lib/reds.js` file for the implementation of each. Please keep in mind that changing these functions may invalidate your previously stored index.
+
+```js
+reds.createSearch('pets', {
+  nlpProcess  : yourNlpProcessingFunction,
+  writeIndex  : yourWriteIndexFunction,
+  removeIndex : yourRemoveIndexFunction
+});
 ```
 
 ## About
