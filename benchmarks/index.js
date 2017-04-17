@@ -2,10 +2,20 @@
 /**
  * Module dependencies.
  */
-
-var reds = require('../').createSearch('reds');
+var argv = require('yargs')
+    .demand('connection')
+    .argv;
+var redis = require('redis');
+var connectionObj = require(argv.connection);
+var reds;
 var fs = require('fs');
 
+
+reds = require('../');
+
+reds.setClient(redis.createClient(connectionObj));
+
+reds = reds.createSearch('reds');
 // test data
 
 var tiny = fs.readFileSync('package.json', 'utf8');

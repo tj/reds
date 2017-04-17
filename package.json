@@ -11,8 +11,10 @@
   ],
   "author": "TJ Holowaychuk <tj@vision-media.ca>",
   "dependencies": {
-    "natural": "^0.2.0",
-    "redis": "^0.12.1"
+    "async": "^2.3.0",
+    "natural": "^0.5.0",
+    "redis": "^2.7.1",
+    "yargs": "^7.0.2"
   },
   "devDependencies": {
     "matcha": "^0.6.0",

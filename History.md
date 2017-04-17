@@ -1,3 +1,8 @@
+1.0.0 / 
+==================
+
+ * Updated tests to take a connection object from an command line argument
+ * Updated creaky dependencies 
 
 0.2.4 / 2013-08-10 
 ==================
