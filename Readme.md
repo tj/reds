@@ -1,22 +1,24 @@
-# reds
+# RedRediSearch
 
-  reds is a light-weight Redis search for node.js. This module was originally developed to provide search capabilities for [Kue](http://automattic.github.io/kue/) a priority job queue, however it is very much a light general purpose search library that could be integrated into a blog, a documentation server, etc.
-
+  RedRediSearch is a Node.js wrapper library for the Redis RediSearch module. It is more-or-less syntactically compatible with Reds, another Node.js search module. RedRediSearch and RediSearch can provide full-text searching that is much faster the original Reds library.
+  
+   
 ## Upgrading
 
-Version 1.0.0 is syntactically compatible with previous versions of reds (0.2.5). However, [natural](https://github.com/NaturalNode/natural) has been updated. Documents indexed with older installs of reds (using natural v0.2.0) may need to be re-indexed to avoid some edge cases.
+If you are upgrading from Reds, you'll need to make your `createSearch` asynchronous and re-index your data. Otherwise, your app-level logic and code should be compatible.
 
 ## Installation
 
-      $ npm install reds
+      $ npm install redredisearch
 
 ## Example
 
-The first thing you'll want to do is create a `Search` instance, which allows you to pass a `key`, used for namespacing within Redis so that you may have several searches in the same db. You may specify your own [node_redis](https://github.com/NodeRedis/node_redis) instance with the `reds.setClient` function.
+The first thing you'll want to do is create a `Search` instance, which allows you to pass a `key`, used for namespacing within RediSearch so that you may have several searches in the same db. You may specify your own [node_redis](https://github.com/NodeRedis/node_redis) instance with the `reds.setClient` function.
 
-    var search = reds.createSearch('pets');
+    var search = redredisearch.createSearch('pets',{}, function(err) {
+      /* ... */
+    });
 
- reds acts against arbitrary numeric or string based ids, so you could utilize this library with essentially anything you wish, even combining data stores. The following example just uses an array for our "database", containing some strings, which we add to reds by calling `Search#index()` padding the body of text and an id of some kind, in this case the index.
 
 ```js
 var strs = [];
@@ -57,7 +59,7 @@ Search results for "Tobi dollars":
 
 ```js
 search
-  .query(query = 'tobi dollars')
+  .query('tobi dollars')
   .type('or')
   .end(function(err, ids){
     if (err) throw err;
@@ -78,10 +80,21 @@ Search results for "tobi dollars":
   - Loki, Jane, and Tobi are ferrets
 ```
 
+RediSearch has an advanced query syntax that can be used by using the 'direct' search type. See the [RediSearch documentation](http://redisearch.io/Query_Syntax/) for this syntax.
+
+```js
+search
+  .query('(hello|hella) (world|werld)')
+  .type('direct')
+  .end(function(err, ids){
+    /* ... */
+  });
+```
+
 ## API
 
 ```js
-reds.createSearch(key)
+reds.createSearch(key, options, )
 Search#index(text, id[, fn])
 Search#remove(id[, fn]);
 Search#query(text, fn[, type]);
@@ -97,66 +110,35 @@ search.remove('bcd');
 search.query('foo bar').end(function(err, ids){});
 ```
 
-## Extending reds
-
-Starting in 1.0.0, you can easily extend and expand how reds functions. When creating a new search, supply an object as the second argument. There are currently three properties that can be configured:
-
-- `nlpProcess` the natural language processing function. You can alter how the words are processed (split, stemmed, and converted to metaphones) using this function.
-- `writeIndex` how the items are written to the index. 
-- `removeIndex` how the items are removed from the index.
-
-See the `lib/reds.js` file for the implementation of each. Please keep in mind that changing these functions may invalidate your previously stored index.
-
-```js
-reds.createSearch('pets', {
-  nlpProcess  : yourNlpProcessingFunction,
-  writeIndex  : yourWriteIndexFunction,
-  removeIndex : yourRemoveIndexFunction
-});
-```
-
-## About
-
-  Currently reds strips stop words and applies the metaphone and porter stemmer algorithms to the remaining words before mapping the constants in Redis sets. For example the following text:
-
-    Tobi is a ferret and he only wants four dollars
-
-  Converts to the following constant map:
-  
-```js
-{
-  Tobi: 'TB',
-  ferret: 'FRT',
-  wants: 'WNTS',
-  four: 'FR',
-  dollars: 'DLRS'
-}
-```
-
- This also means that phonetically similar words will match, for example "stefen", "stephen", "steven" and "stefan" all resolve to the constant "STFN". Reds takes this further and applies the porter stemming algorithm to "stem" words, for example "counts", and "counting" become "count".
-
- Consider we have the following bodies of text:
-
-    Tobi really wants four dollars
-    For some reason tobi is always wanting four dollars
-
- The following search query will then match _both_ of these bodies, and "wanting", and "wants" both reduce to "want".
-
-    tobi wants four dollars
 
 ## Benchmarks
 
- Nothing scientific but preliminary benchmarks show that a small 1.6kb body of text is currently indexed in ~__6ms__, or __163__ ops/s. Medium bodies such as 40kb operate around __6__ ops/s, or __166ms__.
+When compared to Reds, RedRediSearch is much faster at indexing and marginally faster at query:
 
- Querying with a multi-word phrase, and an index containing ~3500 words operates around __5300__ ops/s. Not too bad.
- 
- If working with massive documents, you may want to consider adding a "keywords" field, and simply indexing it's value instead of multi-megabyte documents.
+_Indexing - documents / second_
+
+| Module         | Tiny | Small | Medium | Large |
+|----------------|------|-------|--------|-------|
+| Reds           | 122  | 75    | 10     |  0    |
+| RediRediSearch | 1,256| 501   | 132    |  5    |
+
+_Query - queries / second_
+
+| Module         | 1 term | 2 terms / AND | 2 terms / OR | 3 terms / AND | 3 terms / OR | Long* / AND | Long* / OR | 
+|----------------|--------|---------------|--------------|---------------|--------------|------------|----------|
+| Reds           | 8,754  | 8,765         | 8,389        | 7,622         | 7,193        | 1,649      | 1,647 |
+| RedRediSearch  | 10,955 | 12,945        | 10,054       | 12,769        | 8,389        | 6,456      | 12,311 |
+
+The "Long" query string is taken from the Canadian Charter of Rights and Freedoms: "Everyone has the following fundamental freedoms: (a) freedom of conscience and religion;  (b) freedom of thought, belief, opinion and expression, including freedom of the press and other media of communication; (c) freedom of peaceful assembly; and (d) freedom of association." (Used because I just had it open in another tab...)
+
 
 ## License 
 
 (The MIT License)
 
 Copyright (c) 2011 TJ Holowaychuk &lt;tj@vision-media.ca&gt;
+
+Modified work Copyright (c) 2017 Kyle Davis
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

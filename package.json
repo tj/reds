@@ -9,7 +9,6 @@
   ],
   "author": "Kyle Davis",
   "dependencies": {
-    "natural": "0.5.0",
     "redis": "^2.7.1"
   },
   "devDependencies": {
@@ -17,7 +16,8 @@
     "async": "^2.3.0",
     "matcha": "^0.6.0",
     "should": "^3.3.2",
-    "request": "^2.81.0"
+    "request": "^2.81.0",
+    "express" : "^4.15.3"
   },
   "main": "index",
   "repository": {
