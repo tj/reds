@@ -35,7 +35,7 @@
           var val = o(this).val().trim()
             , results = o('#results').empty();
           if (!val) return;
-          o.get('/search?q=' + val, function(res){
+          o.getJSON('/search?q=' + val, function(res){
             res.forEach(function(res){
               results.append('<li>' + res + '</li>');
             });
@@ -47,7 +47,7 @@
   <body>
     <form>
       <input type="text" placeholder="Search" name="query" autocomplete="off" />
-      <p class="desc">Try "express", "mongodb", "hacker" ...</p>
+      <p class="desc">Try "express", "redis", "hacker" ...</p>
     </form>
     <ul id="results"></ul>
   </body>
