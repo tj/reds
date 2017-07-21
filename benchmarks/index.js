@@ -1,4 +1,4 @@
-// this will benchmark redredisearch. Also included is the benchmark for reds as to compare the two packages
+// this will benchmark redredisearch. Also included is the comparision benchmark for reds (benchmarks/benchmark.reds.node.js) as to compare the two packages
 var argv = require('yargs')
     .demand('connection')                                                   // you need to provide the --connection in the cmd line arguments, it's a path to a JSON file of node_redis connection information
     .argv;
