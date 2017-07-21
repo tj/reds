@@ -67,7 +67,6 @@ search
     ids.forEach(function(id){
       console.log('  - %s', strs[id]);
     });
-    process.exit();
   });
 ```
 
@@ -91,13 +90,68 @@ search
   });
 ```
 
+Also included in the package is the RediSearch Suggestion API. This has no corollary in the Reds module. The Suggestion API is ideal for auto-complete type situations and is entirely seperated from the Search API. 
+
+```js
+var suggestions = redredisearch.suggestion('my-suggestion-list');
+
+suggestions.add(
+  'redis',                                            // add 'redis'
+  2,                                                  // with a 'score' of 2, this affects the position in the results, higher = higher up in results
+  function(err,sizeOfSuggestionList) { /* ... */ }    // callback
+);
+suggestions.add(
+  'redisearch',                                       
+  5,
+  function(err,sizeOfSuggestionList) { /* ... */ } 
+);
+suggestions.add(
+  'reds',                                       
+  1,
+  function(err,sizeOfSuggestionList) { /* ... */ } 
+);
+
+/* ... */
+
+sugggestions.get(
+  're',                                               // prefix - will find anything starting with "re"
+  function(err, returnedSuggestions) {
+    /* returnedSuggestions is set to [ "redisearch", "redis", "reds" ] */
+  }
+);
+
+sugggestions.get(
+  'redis',                                            // prefix - will find anything starting with "redis", so not "reds"
+  function(err, returnedSuggestions) {
+    /* returnedSuggestions is set to [ "redisearch", "redis" ] */
+  }
+)
+```
+
+There is also a `fuzzy` opt and `maxResults` that can either be set by chaining or by in the second argument in the constructor.
+
+
 ## API
 
 ```js
-reds.createSearch(key, options, )
+redredisearch.createSearch(key, options, fn) : Search
+redredisearch.setClient(inClient)
+redredisearch.createClient()
+redredisearch.confirmModule(cb)
+redredisearch.words(str) : Array
+redredisearch.suggestionList(key,opts) : Suggestion
 Search#index(text, id[, fn])
 Search#remove(id[, fn]);
-Search#query(text, fn[, type]);
+Search#query(text, fn[, type]) : Query
+Query#type(type)
+Query#between(str)
+Query#end(fn)
+Suggestion#fuzzy(isFuzzy)
+Suggestion#maxResults(maxResults)
+Suggestion#add(str,score,fn)
+Suggestion#get(prefix,fn)
+Suggestion#del(str,fn)
+
 ```
 
  Examples:
