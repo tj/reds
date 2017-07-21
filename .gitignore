@@ -60,3 +60,6 @@ typings/
 .DS_Store
 *.sock
 testing.js
+
+# misc
+
