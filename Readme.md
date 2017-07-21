@@ -1,6 +1,6 @@
 # RedRediSearch
 
-  RedRediSearch is a Node.js wrapper library for the Redis RediSearch module. It is more-or-less syntactically compatible with Reds, another Node.js search module. RedRediSearch and RediSearch can provide full-text searching that is much faster the original Reds library.
+  RedRediSearch is a Node.js wrapper library for the [RediSearch](http://redisearch.io/) Redis module. It is more-or-less syntactically compatible with [Reds](https://github.com/tj/reds), another Node.js search library. RedRediSearch and RediSearch can provide full-text searching that is much faster than the original Reds library (see Benchmarks).
   
    
 ## Upgrading
@@ -13,12 +13,15 @@ If you are upgrading from Reds, you'll need to make your `createSearch` asynchro
 
 ## Example
 
-The first thing you'll want to do is create a `Search` instance, which allows you to pass a `key`, used for namespacing within RediSearch so that you may have several searches in the same db. You may specify your own [node_redis](https://github.com/NodeRedis/node_redis) instance with the `reds.setClient` function.
+The first thing you'll want to do is create a `Search` instance, which allows you to pass a `key`, used for namespacing within RediSearch so that you may have several searches in the same Redis database. You may specify your own [node_redis](https://github.com/NodeRedis/node_redis) instance with the `redredisearch.setClient` function.
 
-    var search = redredisearch.createSearch('pets',{}, function(err) {
-      /* ... */
-    });
+```js
+var search = redredisearch.createSearch('pets',{}, function(err, search) {
+  /* ... */
+});
+```
 
+You can then add items to the index with the `Search#index` function.
 
 ```js
 var strs = [];
@@ -30,10 +33,12 @@ strs.push('Manny is a cat');
 strs.push('Luna is a cat');
 strs.push('Mustachio is a cat');
 
-strs.forEach(function(str, i){ search.index(str, i); });
+var search = redredisearch.createSearch('pets',{}, function(err,search) {
+  strs.forEach(function(str, i){ search.index(str, i); });
+});
 ```
 
- To perform a query against reds simply invoke `Search#query()` with a string, and pass a callback, which receives an array of ids when present, or an empty array otherwise.
+ To perform a query against the index simply invoke `Search#query()` with a string, and pass a callback, which receives an array of ids when present, or an empty array otherwise.
 
 ```js
 search
@@ -48,14 +53,14 @@ search
   });
   ```
 
- By default reds performs an intersection of the search words. The previous example would yield the following output since only one string contains both "Tobi" _and_ "dollars":
+ By default, queries are an intersection of the search words. The previous example would yield the following output since only one string contains both "Tobi" _and_ "dollars":
 
 ```
 Search results for "Tobi dollars":
   - Tobi wants four dollars
 ```
 
- We can tweak reds to perform a union by passing either "union" or "or" to `Search#type()` in `reds.search()` between `Search#query()` and `Search#end()`, indicating that _any_ of the constants computed may be present for the id to match.
+ We can tweak the query to perform a union by passing either "union" or "or" to `Search#type()` in `redredisearch.search()` between `Search#query()` and `Search#end()`, indicating that _any_ of the constants computed may be present for the `id` to match.
 
 ```js
 search
@@ -90,7 +95,7 @@ search
   });
 ```
 
-Also included in the package is the RediSearch Suggestion API. This has no corollary in the Reds module. The Suggestion API is ideal for auto-complete type situations and is entirely seperated from the Search API. 
+Also included in the package is the RediSearch Suggestion API. This has no corollary in the Reds module. The Suggestion API is ideal for auto-complete type situations and is entirely separate from the Search API. 
 
 ```js
 var suggestions = redredisearch.suggestion('my-suggestion-list');
@@ -128,7 +133,7 @@ sugggestions.get(
 )
 ```
 
-There is also a `fuzzy` opt and `maxResults` that can either be set by chaining or by in the second argument in the constructor.
+There is also a `fuzzy` opt and `maxResults` that can either be set by chaining or by passing an object in the second argument in the constructor.
 
 
 ## API
@@ -157,7 +162,7 @@ Suggestion#del(str,fn)
  Examples:
 
 ```js
-var search = reds.createSearch('misc');
+var search = redredisearch.createSearch('misc');
 search.index('Foo bar baz', 'abc');
 search.index('Foo bar', 'bcd');
 search.remove('bcd');
@@ -167,7 +172,7 @@ search.query('foo bar').end(function(err, ids){});
 
 ## Benchmarks
 
-When compared to Reds, RedRediSearch is much faster at indexing and marginally faster at query:
+When compared to Reds, RedRediSearch is much faster at indexing and somewhat faster at query:
 
 _Indexing - documents / second_
 
@@ -184,6 +189,12 @@ _Query - queries / second_
 | RedRediSearch  | 10,955 | 12,945        | 10,054       | 12,769        | 8,389        | 6,456      | 12,311 |
 
 The "Long" query string is taken from the Canadian Charter of Rights and Freedoms: "Everyone has the following fundamental freedoms: (a) freedom of conscience and religion;  (b) freedom of thought, belief, opinion and expression, including freedom of the press and other media of communication; (c) freedom of peaceful assembly; and (d) freedom of association." (Used because I just had it open in another tab...)
+
+## Next steps
+
+- More coverage of RediSearch features
+- Tests
+- Better examples
 
 
 ## License 
