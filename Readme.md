@@ -35,8 +35,7 @@ strs.forEach(function(str, i){ search.index(str, i); });
 
 ```js
 search
-  .query(query = 'Tobi dollars')
-  .end(function(err, ids){
+  .query(query = 'Tobi dollars', function(err, ids){
     if (err) throw err;
     console.log('Search results for "%s":', query);
     ids.forEach(function(id){
