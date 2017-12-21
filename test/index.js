@@ -119,6 +119,25 @@ function nonModularTests(finish) {
     ++pending;
     search
       .query('loki and jane')
+      .type('invalid type')
+      .end(function(err, ids){
+        if (err) { throw err; }
+        ids.should.eql([]);
+        --pending || done();
+      });
+
+    ++pending;
+    search
+      .query('loki and jane', 'invalid type')
+      .end(function(err, ids){
+        if (err) { throw err; }
+        ids.should.eql([]);
+        --pending || done();
+      });
+
+    ++pending;
+    search
+      .query('loki and jane')
       .end(function(err, ids){
         if (err) { throw err; }
         ids.should.eql([]);
