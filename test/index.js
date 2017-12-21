@@ -172,7 +172,7 @@ function nonModularTests(finish) {
 
     ++pending;
     search
-      .query('dog ideas', function(err, ids){
+      .query('dog ideas', 'or', function(err, ids){
         if (err) { throw err; }
         ids.should.have.length(3);
         ids.should.include('7');
@@ -180,7 +180,7 @@ function nonModularTests(finish) {
         ids.should.include('9');
         ids[0].should.eql('9');
         --pending || done();
-      }, 'or');
+      });
 
     ++pending;
     //refactor this with async soon

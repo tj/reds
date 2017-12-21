@@ -83,7 +83,11 @@ Search results for "tobi dollars":
 reds.createSearch(key)
 Search#index(text, id[, fn])
 Search#remove(id[, fn]);
-Search#query(text, fn[, type]);
+Search#query(text[, type][, fn]); // will return a `Query` instance
+
+Query#between(start, stop)
+Query#type(type)
+Query#end(fn)
 ```
 
  Examples:
