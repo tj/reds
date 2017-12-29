@@ -30,7 +30,7 @@ function nonModularTests(finish) {
     db.quit();
     finish();
   };
-  
+
   test = function() {
     var pending = 0;
 
@@ -38,6 +38,14 @@ function nonModularTests(finish) {
     search
       .query('stuff compute')
       .end(function(err, ids){
+        if (err) { throw err; }
+        ids.should.eql(['6']);
+        --pending || done();
+      });
+
+    ++pending;
+    search
+      .query('stuff compute', function(err, ids){
         if (err) { throw err; }
         ids.should.eql(['6']);
         --pending || done();
@@ -99,13 +107,31 @@ function nonModularTests(finish) {
 
     ++pending;
     search
-      .query('loki and jane')
-      .type('or')
+      .query('loki and jane', 'or')
       .end(function(err, ids){
         if (err) { throw err; }
         ids.should.have.length(2);
         ids.should.include('2');
         ids.should.include('4');
+        --pending || done();
+      });
+
+    ++pending;
+    search
+      .query('loki and jane')
+      .type('invalid type')
+      .end(function(err, ids){
+        if (err) { throw err; }
+        ids.should.eql([]);
+        --pending || done();
+      });
+
+    ++pending;
+    search
+      .query('loki and jane', 'invalid type')
+      .end(function(err, ids){
+        if (err) { throw err; }
+        ids.should.eql([]);
         --pending || done();
       });
 
@@ -164,6 +190,18 @@ function nonModularTests(finish) {
       });
 
     ++pending;
+    search
+      .query('dog ideas', 'or', function(err, ids){
+        if (err) { throw err; }
+        ids.should.have.length(3);
+        ids.should.include('7');
+        ids.should.include('8');
+        ids.should.include('9');
+        ids[0].should.eql('9');
+        --pending || done();
+      });
+
+    ++pending;
     //refactor this with async soon
     search
       .index('keyboard cat', 6, function(err){
@@ -193,7 +231,7 @@ function nonModularTests(finish) {
 
 
   search = reds.createSearch('reds');
-  
+
   reds
     .words('foo bar baz ')
     .should.eql(['foo', 'bar', 'baz']);
@@ -263,7 +301,7 @@ function modularTest(next) {
       });
     },
     nonPhoneticMap      = function(words){
-      var 
+      var
         obj = {},
         len,
         i;
@@ -294,8 +332,8 @@ function modularTest(next) {
       };
     };
 
-  
-  
+
+
   console.log('Starting modular test');
   reds.client.quit();
 
@@ -320,9 +358,9 @@ function modularTest(next) {
   });
 
   search.index(testString,'x');
-  
+
   should.exist(search[writeIndexTestProp])
-  
+
   //with the normal nlpProcessor, 'trent' and 'toronto' will turn into the same metaphones, test ot make sure that isn't happening.
   search[writeIndexTestProp]
     .should
@@ -347,7 +385,7 @@ function modularTest(next) {
       search
         .query('trent')
         .end(function(err,results) {
-          if (err) { throw err; } 
+          if (err) { throw err; }
           results.should.eql(['x']); //if it was using the standard nlpParser then it would be ['x','y']
           console.log('  completed in %dms', new Date() - start);
 

@@ -35,8 +35,7 @@ strs.forEach(function(str, i){ search.index(str, i); });
 
 ```js
 search
-  .query(query = 'Tobi dollars')
-  .end(function(err, ids){
+  .query(query = 'Tobi dollars', function(err, ids){
     if (err) throw err;
     console.log('Search results for "%s":', query);
     ids.forEach(function(id){
@@ -84,7 +83,11 @@ Search results for "tobi dollars":
 reds.createSearch(key)
 Search#index(text, id[, fn])
 Search#remove(id[, fn]);
-Search#query(text, fn[, type]);
+Search#query(text[, type][, fn]); // will return a `Query` instance
+
+Query#between(start, stop)
+Query#type(type)
+Query#end(fn)
 ```
 
  Examples:
