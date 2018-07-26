@@ -42,7 +42,7 @@ redredisearch.createSearch('pets',{}, function(err,search) {
 
 ```js
 search
-  .query(query = 'Tobi dollars')
+  .query('Tobi dollars')
   .end(function(err, ids){
     if (err) throw err;
     console.log('Search results for "%s":', query);
