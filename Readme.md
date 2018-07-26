@@ -16,7 +16,7 @@ If you are upgrading from Reds, you'll need to make your `createSearch` asynchro
 The first thing you'll want to do is create a `Search` instance, which allows you to pass a `key`, used for namespacing within RediSearch so that you may have several searches in the same Redis database. You may specify your own [node_redis](https://github.com/NodeRedis/node_redis) instance with the `redredisearch.setClient` function.
 
 ```js
-var search = redredisearch.createSearch('pets',{}, function(err, search) {
+redredisearch.createSearch('pets',{}, function(err, search) {
   /* ... */
 });
 ```
@@ -33,7 +33,7 @@ strs.push('Manny is a cat');
 strs.push('Luna is a cat');
 strs.push('Mustachio is a cat');
 
-var search = redredisearch.createSearch('pets',{}, function(err,search) {
+redredisearch.createSearch('pets',{}, function(err,search) {
   strs.forEach(function(str, i){ search.index(str, i); });
 });
 ```
@@ -49,7 +49,6 @@ search
     ids.forEach(function(id){
       console.log('  - %s', strs[id]);
     });
-    process.exit();
   });
   ```
 
