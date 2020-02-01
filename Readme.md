@@ -1,3 +1,6 @@
+[![Actions Status](https://github.com/stockholmux/redredisearch/workflows/Node%20CI/badge.svg)](https://github.com/stockholmux/redredisearch/actions)
+[![npm version](https://badge.fury.io/js/redredisearch.svg)](https://badge.fury.io/js/redredisearch)
+
 # RedRediSearch
 
   RedRediSearch is a Node.js wrapper library for the [RediSearch](http://redisearch.io/) Redis module. It is more-or-less syntactically compatible with [Reds](https://github.com/tj/reds), another Node.js search library. RedRediSearch and RediSearch can provide full-text searching that is much faster than the original Reds library (see Benchmarks).
